@@ -1,26 +1,45 @@
 package com.food.guide.domain;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-public class Blogger {
+public class Blogger /*implements Serializable*/ {
+    //private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.TABLE)
-    private long id;
+    @GeneratedValue
+    private Long id;
 
     private String nickname;
     private String mail;
     private String password;
 
-    @OneToMany(mappedBy = "blogger", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
-    @Fetch(FetchMode.SELECT)
+    public Blogger() {}
+
+    public Blogger(String nickname, String mail, String password){
+        this.nickname = nickname;
+        this.mail = mail;
+        this.password = password;
+    }
+
+    //CascadeType.All ... the persistence will propagate (cascade) all EntityManager
+    //                    operations (PERSIST, REMOVE, REFRESH, MERGE, DETACH) to the
+    //                    relating entities
+    //orphanRemoval=true ... marks "child" entity to be removed when it's no longer
+    //                       referenced from the "parent" entity, e.g. when you
+    //                       remove the child entity from the corresponding
+    //                       collection of the parent entity.
+    @JsonIgnore
+    @OneToMany(mappedBy = "blogger", cascade=CascadeType.ALL, fetch=FetchType.LAZY,
+            orphanRemoval=true)
     private Set<Entry> entries = new HashSet<>();
 
     public void addEntry(Entry entry){
@@ -34,11 +53,11 @@ public class Blogger {
         this.entries.remove(entry);
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

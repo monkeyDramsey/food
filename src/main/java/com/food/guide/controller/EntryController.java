@@ -1,7 +1,7 @@
 package com.food.guide.controller;
 
 import com.food.guide.domain.Entry;
-import com.food.guide.service.EntryService;
+import com.food.guide.logic.WorkLogFacade;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,32 +13,32 @@ import java.util.List;
 public class EntryController {
 
     @Autowired
-    private EntryService entryService;
+    private WorkLogFacade workLogFacade;
 
-    @GetMapping("/products")
-    public ResponseEntity<List<Entry>> getAllProduct(){
-        return ResponseEntity.ok().body(entryService.getAllProduct());
+    @GetMapping("/entries")
+    public ResponseEntity<List<Entry>> getAllEntries(){
+        return ResponseEntity.ok().body(workLogFacade.getAllEntries());
     }
 
-    @GetMapping("/products/{id}")
-    public ResponseEntity<Entry> getProductById(@PathVariable long id){
-        return ResponseEntity.ok().body(entryService.getProductById(id));
+    @GetMapping("/entries/{id}")
+    public ResponseEntity<Entry> getEntryById(@PathVariable long id){
+        return ResponseEntity.ok().body(workLogFacade.getEntryById(id));
     }
 
-    @PostMapping("/products")
-    public ResponseEntity<Entry> createProduct(@RequestBody Entry entry){
-        return ResponseEntity.ok().body(this.entryService.createProduct(entry));
+    @PostMapping("/entries")
+    public ResponseEntity<Entry> createEntry(@RequestBody Entry entry){
+        return ResponseEntity.ok().body(this.workLogFacade.createEntry(entry));
     }
 
-    @PutMapping("/products/{id}")
-    public ResponseEntity<Entry> updateProduct(@PathVariable long id, @RequestBody Entry entry){
+    @PutMapping("/entries/{id}")
+    public ResponseEntity<Entry> updateEntry(@PathVariable long id, @RequestBody Entry entry){
         entry.setId(id);
-        return ResponseEntity.ok().body(this.entryService.updateProduct(entry));
+        return ResponseEntity.ok().body(this.workLogFacade.updateEntry(entry));
     }
 
-    @DeleteMapping("products/{id}")
-    public HttpStatus deleteProduct(@PathVariable long id){
-        this.entryService.deleteProduct(id);
+    @DeleteMapping("entries/{id}")
+    public HttpStatus deleteEntry(@PathVariable long id){
+        this.workLogFacade.deleteEntry(id);
         return HttpStatus.OK;
     }
 }

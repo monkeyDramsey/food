@@ -1,4 +1,4 @@
-package com.food.guide.swagger;
+package com.food.guide.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
