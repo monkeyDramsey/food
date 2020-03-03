@@ -15,8 +15,6 @@ public class BloggerController {
     @Autowired
     private WorkLogFacade workLogFacade;
 
-
-
     @PostMapping("/blogger")
     public ResponseEntity<Blogger> createBlogger(@RequestBody Blogger blogger){
         return ResponseEntity.ok().body(this.workLogFacade.syncBlogger(blogger));
